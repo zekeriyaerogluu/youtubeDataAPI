@@ -1,0 +1,58 @@
+<ion-header>
+    <ion-toolbar color='black'>
+        <ion-title>
+            <ion-icon item-left color='danger' name='logo-youtube'></ion-icon>
+            <ion-label> Youtube</ion-label>
+        </ion-title>
+        <ion-buttons slot="primary">
+            <ion-item>
+                <ion-select placeholder='Kategori' [(ngModel)]="kategori" (ionChange)="kategoriyeGoreVideoGetir(kategori)" okText="Tamam" cancelText="Vazgeç" *ngIf="kategoriler">
+                    <ion-select-option *ngFor="let kategori of kategoriler" [value]="kategori.id">{{kategori.snippet.title}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-button (click)="promptSearch()">
+                <ion-icon slot="icon-only" name="search"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-list no-lines>
+
+        <ion-item *ngIf="trend">
+            <p>Trend Videolar</p>
+        </ion-item>
+
+        <ion-item *ngIf="kategoriTitle">
+            <span>Kategori:</span> <span id="kategoriTitle"></span>
+        </ion-item>
+
+        <ion-item *ngIf="arama">
+            <span>Aranan:</span><span [innerHTML]="arananKelime"></span>
+        </ion-item>
+
+        <ion-card (click)='izle(vid)' *ngFor="let vid of videolar">
+            <img [src]="vid.snippet.thumbnails.medium.url" />
+            <ion-card-header>
+                <ion-card-subtitle>{{vid.snippet.title}}</ion-card-subtitle>
+                <ion-card-subtitle>{{vid.snippet.channelTitle}}</ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+
+        <ion-item class='pageText' *ngIf="videolar else videoyok">
+            <p>Video: {{videolar.length}} / {{videolar.length}}</p>
+        </ion-item>
+
+        <ng-template #videoyok>
+            <div class=bos-liste>
+                <h3>
+                    <ion-icon item-left color='danger' name='logo-youtube'></ion-icon>
+                </h3>
+                <h3>Gösterilecek Video Yok</h3>
+            </div>
+        </ng-template>
+
+    </ion-list>
+</ion-content>
